@@ -26,7 +26,7 @@ jobs:
       with:
         python-version: '3.10'
     - name: Install all necessary packages
-      run: pip install jupyter lxml pandas requests beautifulsoup4 html5lib playwright transformers numpy Pillow scikit-learn
+      run: pip install jupyter lxml pandas requests beautifulsoup4 html5lib playwright torch torchvision torchaudio transformers numpy Pillow scikit-learn
     - name: Scraping today's data
       run: jupyter nbconvert --to notebook --execute "Model__building.ipynb" --stdout
     - name: Commit and push any changes
