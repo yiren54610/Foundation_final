@@ -6,16 +6,33 @@
     <style>
         body {
             margin: 0;
-            background-color: aliceblue;
-        }
-        /* Make the page 700px wide, centered */
-        .container {
-            width: 700px;
-            margin: 4em auto;
-        }
-        /* Use a nice font */
-        body {
+            background-color: grey;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;  /* Ensures full height of the page */
+        }
+
+        .layout {
+            display: flex;
+            flex: 1;  /* Ensure the content stretches to fill available space */
+        }
+
+        .left-column, .right-column {
+            width: 20%;
+            background-color: #dcdcdc;
+            padding: 1em;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .middle-content {
+            width: 60%;
+            background-color: rgba(255, 255, 255, 0);
+            padding: 1em;
+            box-sizing: border-box;
+            overflow-y: auto;
+            opacity: 1;
         }
 
         h1 {
@@ -24,30 +41,102 @@
             margin: 2em 0;
         }
 
-        .graphic {
-            max-width: 500px;
-            margin: 2em auto;
-        }
-
         #footer {
             text-align: center;
-            padding: 4em;
+            padding: 2em;
             background-color: #f0f1ff;
             border-top: solid white 5px;
+            width: 100%; /* Make sure footer spans full width */
+            box-sizing: border-box;
+            position: relative;
+            bottom: 0;
         }
+
+        .img_center {
+            transition: All 1s ease-in-out;
+            z-index: 9999;
+        }
+
+        .img_center:hover {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .img_palette {
+            transition: All 1s ease-in-out;  
+            -webkit-transition: All 1s ease-in-out; 
+            -moz-transition: All 1s ease-in-out; 
+            -o-transition: All 1s ease-in-out; 
+            transform: translateX(-30px);  
+            -webkit-transform: translateX(-30px); 
+            -moz-transform: translateX(-30px); 
+            -o-transform: translateX(-30px);
+            z-index: 9999;
+        }
+
+        .img_palette:hover {
+            transform: translate(20px, 0);  
+            -webkit-transform: translate(20px, 0); 
+            -moz-transform: translate(20px, 0); 
+            -o-transform: translate(20px, 0); 
+            -ms-transform: translate(20px, 0); 
+        }
+        
+	.img_rotate {
+		transition: All 1s ease-in-out;
+		-webkit-transition: All 0.4s ease-in-out;
+		-moz-transition: All 0.4s ease-in-out;
+		-o-transition: All 0.4s ease-in-out;
+	}
+
+	.img_rotate:hover {
+		transform: scale(1.2);
+		-webkit-transform: scale(1.2);
+		-moz-transform: scale(1.2);
+		-o-transform: scale(1.2);
+		-ms-transform: scale(1.2);
+	}
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎨 Color Palettes of Fashion 🖌️</h1>
-        <h3>What colors are the big fashion brands using?</h3>
-        <p>Below are the color plattes extracted from the big fashion brands websites <a href="https://www.airnow.gov/aqi/aqi-basics/">
-        </b> They are updated every month.</a>.</p>
-        <div class="graphic">
-          Graphic goes here
+    <div class="layout">
+        <div class="left-column">
+            <div class="img_palette">
+                <img src="Ralph_Lauren.png" alt="Colors for Ralph Lauren this month">
+            </div>
+                <br>
+            <div class="img_palette">
+                <img src="Uniqlo.png" alt="Colors for Uniqlo this month">
+            </div>
+                <br>
+            <div class="img_palette">
+                <img src="Zara.png" alt="Colors for Uniqlo this month">
+            </div>
+            <p>Left column content</p>
         </div>
+        <div class="middle-content">
+            <h1>🎨 Color Palettes of Fashion 🖌️</h1>
+            <h3>What colors are the big fashion brands using?</h3>
+            <p>Below are the color palettes extracted from the big fashion brands websites 
+                <a href="https://www.airnow.gov/aqi/aqi-basics/"><b>They are updated every month.</b></a>
+            </p>
+            <div class="img_rotate">
+                <img src="color_wheel.png" alt="Color Usage in Fashion">
+            </div>
+            <div class="img_center">
+                <img src="most_common_color_wheel.png" alt="Color Usage in Fashion">
+            </div>
+        </div>
+        <div class="right-column">
+            <p>Right column content</p>
+            <div class="img_palette">
+                <img src="HM.png" alt="Colors for Uniqlo this month">
+            </div>
+        </div>
+
     </div>
     <div id="footer">
-        <p>This website was made for the final project of Foundation Class. <a href="https://jonathansoma.com">auto-updating websites</a>.</p>
+        <p>This website was made for the final project of Foundation Class. <a href="https://github.com/yiren54610/Foundation_final.git">auto-updating websites</a>.</p>
     </div>
+</body>
 </html>
