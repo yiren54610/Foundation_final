@@ -75,6 +75,18 @@
             z-index: 9999;
         }
 
+        .img_palette_r {
+            transition: All 1s ease-in-out;  
+            -webkit-transition: All 1s ease-in-out; 
+            -moz-transition: All 1s ease-in-out; 
+            -o-transition: All 1s ease-in-out; 
+            transform: translateX(30px);  
+            -webkit-transform: translateX(30px); 
+            -moz-transform: translateX(30px); 
+            -o-transform: translateX(30px);
+            z-index: 9999;
+        }
+
         .overlay {
             position: absolute;
             bottom: 0;
@@ -96,6 +108,15 @@
             -ms-transform: translate(20px, 0); 
         } 
         
+        .img_palette_r:hover {
+            position: relative;
+            transform: translate(-20px, 0);  
+            -webkit-transform: translate(-20px, 0); 
+            -moz-transform: translate(-20px, 0); 
+            -o-transform: translate(-20px, 0); 
+            -ms-transform: translate(-20px, 0); 
+        }
+
         .img_rotate {
             transition: All 1s ease-in-out;
             -webkit-transition: All 0.4s ease-in-out;
@@ -132,9 +153,10 @@
             width: 100%;
         }
 
-        a:link {
+        .container .img_palette .overlay .text a,
+        .container .img_palette_r .overlay .text a {
             text-decoration: none;
-            color: inherit;
+            color: inherit; /* This will now work correctly */
         }
 
     </style>
@@ -155,7 +177,7 @@
                 <div class="img_palette">
                     <img src="Uniqlo.png" alt="Colors for Uniqlo this month">
                     <div class="overlay">
-                        <div class="text">Uniqlo</div>
+                        <div class="text"><a href="https://www.uniqlo.com/us/en/feature/new/women">Uniqlo</a></div>
                     </div>
                 </div>
             </div>
@@ -164,7 +186,7 @@
                 <div class="img_palette">
                     <img src="Zara.png" alt="Colors for Uniqlo this month">
                     <div class="overlay">
-                        <div class="text">Zara</div>
+                        <div class="text"><a href="https://www.zara.com/us/en/woman-best-sellers-l5912.html?v1=2491343&regionGroupId=41">Zara</a></div>
                     </div>
                 </div>
             </div>
@@ -173,8 +195,13 @@
         <div class="middle-content">
             <h1 class="neonText">🎨 Color Palettes of Fashion 🖌️</h1>
             <h3>What colors are the big fashion brands using?</h3>
-            <p>Below are the color palettes extracted from the big fashion brands websites 
-                <a href="https://www.airnow.gov/aqi/aqi-basics/"><b>They are updated every month.</b></a>
+            <p>We extracted colors from the big fashion brands websites and made this color wheel. 
+                <br>
+                <br>
+                Hover over the color palettes on the two sides of the screen, and you will see the respective brands.
+                <br>
+                <br>
+                They are auto-updated every month.
             </p>
             <div class="img_rotate">
                 <img src="color_wheel.png" alt="Color Usage in Fashion">
@@ -184,9 +211,14 @@
             </div>
         </div>
         <div class="right-column">
-            <p>Right column content</p>
-            <div class="img_palette">
-                <img src="HM.png" alt="Colors for Uniqlo this month">
+            <div class="container">
+                <p>Right column content</p>
+                <div class="img_palette_r">
+                    <img src="HM.png" alt="Colors for Uniqlo this month">
+                    <div class="overlay">
+                        <div class="text"><a href="https://www2.hm.com/en_us/women/new-arrivals/view-all.html">H&M</a></div>
+                    </div>
+                </div>
             </div>
         </div>
 
