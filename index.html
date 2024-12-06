@@ -7,7 +7,7 @@
         body {
             margin: 0;
             background-color: grey;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: "Vibur", sans-serif;
             display: flex;
             flex-direction: column;
             min-height: 100vh;  /* Ensures full height of the page */
@@ -20,7 +20,7 @@
 
         .left-column, .right-column {
             width: 20%;
-            background-color: #dcdcdc;
+            background-color: #A1B0A1;
             padding: 1em;
             box-sizing: border-box;
             overflow-y: auto;
@@ -28,17 +28,19 @@
 
         .middle-content {
             width: 60%;
-            background-color: rgba(255, 255, 255, 0);
+            background-color: #F1F1E6;
             padding: 1em;
             box-sizing: border-box;
             overflow-y: auto;
             opacity: 1;
+            box-shadow: 2px 2px 4px #000000;
         }
 
         h1 {
             text-align: center;
             font-size: 3em;
             margin: 2em 0;
+            animation: pulsate 0.11s ease-in-out infinite alternate;
         }
 
         #footer {
@@ -73,49 +75,103 @@
             z-index: 9999;
         }
 
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: dimgray;
+            overflow: hidden;
+            width: 0;
+            height: 100%;
+            transition: .5s ease;
+            }
+
         .img_palette:hover {
+            position: relative;
             transform: translate(20px, 0);  
             -webkit-transform: translate(20px, 0); 
             -moz-transform: translate(20px, 0); 
             -o-transform: translate(20px, 0); 
             -ms-transform: translate(20px, 0); 
-        }
+        } 
         
-	.img_rotate {
-		transition: All 1s ease-in-out;
-		-webkit-transition: All 0.4s ease-in-out;
-		-moz-transition: All 0.4s ease-in-out;
-		-o-transition: All 0.4s ease-in-out;
-	}
+        .img_rotate {
+            transition: All 1s ease-in-out;
+            -webkit-transition: All 0.4s ease-in-out;
+            -moz-transition: All 0.4s ease-in-out;
+            -o-transition: All 0.4s ease-in-out;
+        }
 
-	.img_rotate:hover {
-		transform: scale(1.2);
-		-webkit-transform: scale(1.2);
-		-moz-transform: scale(1.2);
-		-o-transform: scale(1.2);
-		-ms-transform: scale(1.2);
-	}
+        .img_rotate:hover {
+            transform: scale(1.2);
+            -webkit-transform: scale(1.2);
+            -moz-transform: scale(1.2);
+            -o-transform: scale(1.2);
+            -ms-transform: scale(1.2);
+        }
+
+        .text {
+            color: white;
+            font-size: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+        }
+
+        .container {
+            position: relative;
+            width: 50%;
+        }
+
+        .container:hover .overlay {
+            width: 100%;
+        }
+
+        a:link {
+            text-decoration: none;
+            color: inherit;
+        }
 
     </style>
 </head>
 <body>
     <div class="layout">
         <div class="left-column">
-            <div class="img_palette">
-                <img src="Ralph_Lauren.png" alt="Colors for Ralph Lauren this month">
+            <div class="container">
+                <div class="img_palette">
+                    <img src="Ralph_Lauren.png" alt="Colors for Ralph Lauren this month">
+                    <div class="overlay">
+                        <div class="text"><a href="https://www.ralphlauren.com/women-clothing">Ralph Lauren</a></div>
+                    </div>
+                </div>
             </div>
                 <br>
-            <div class="img_palette">
-                <img src="Uniqlo.png" alt="Colors for Uniqlo this month">
+            <div class="container">
+                <div class="img_palette">
+                    <img src="Uniqlo.png" alt="Colors for Uniqlo this month">
+                    <div class="overlay">
+                        <div class="text">Uniqlo</div>
+                    </div>
+                </div>
             </div>
                 <br>
-            <div class="img_palette">
-                <img src="Zara.png" alt="Colors for Uniqlo this month">
+            <div class="container">
+                <div class="img_palette">
+                    <img src="Zara.png" alt="Colors for Uniqlo this month">
+                    <div class="overlay">
+                        <div class="text">Zara</div>
+                    </div>
+                </div>
             </div>
             <p>Left column content</p>
         </div>
         <div class="middle-content">
-            <h1>🎨 Color Palettes of Fashion 🖌️</h1>
+            <h1 class="neonText">🎨 Color Palettes of Fashion 🖌️</h1>
             <h3>What colors are the big fashion brands using?</h3>
             <p>Below are the color palettes extracted from the big fashion brands websites 
                 <a href="https://www.airnow.gov/aqi/aqi-basics/"><b>They are updated every month.</b></a>
@@ -136,7 +192,10 @@
 
     </div>
     <div id="footer">
-        <p>This website was made for the final project of Foundation Class. <a href="https://github.com/yiren54610/Foundation_final.git">auto-updating websites</a>.</p>
+        <p>This website was made for the final project of Foundation Class. 
+            <a href="https://github.com/yiren54610/Foundation_final.git">auto-updating websites</a>.
+        </p>
+
     </div>
 </body>
 </html>
