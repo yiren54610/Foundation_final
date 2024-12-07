@@ -38,9 +38,17 @@
 
         h1 {
             text-align: center;
-            font-size: 3em;
+            font-size: 5em;
             margin: 2em 0;
             animation: pulsate 0.11s ease-in-out infinite alternate;
+        }
+
+        p, h3 {
+            font-size: 1.5em;
+        }
+
+        .headline {
+            color: dimgrey;
         }
 
         #footer {
@@ -203,6 +211,31 @@
             text-shadow: 0 0 2px white; /* Text shadow for readability */
         }
 
+        @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400&display=swap");
+
+        html {
+            font-size: 62.5%; 
+        }
+
+        #clock {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 5px; 
+        }
+
+        #date-time {
+            font-size: 3em; 
+            color: #A1B0A1; 
+        }
+
+        .line {
+            color: #A1B0A1;
+            font-size: 2em;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -237,7 +270,7 @@
             <p>Left column content</p>
         </div>
         <div class="middle-content">
-            <h1 class="neonText">🎨 Color Palettes of Fashion 🖌️</h1>
+            <h1 class="headline"> Color Palettes of Fashion </h1>
             <h3>What colors are the big fashion brands using?</h3>
             <p>We extracted colors from the big fashion brands websites and made this color wheel. 
                 <br>
@@ -247,16 +280,22 @@
                 <br>
                 They are auto-updated every month.
             </p>
+            <div id="clock">
+                <h1 id="date-time"></h1>
+              </div>
+            <div class="line">--------------------------------------------------------------------</div>
             <div class="color-wheel-container">
                 <div class="img_rotate">
                     <img src="color_wheel.png" alt="Color Usage in Fashion">
                 </div>
             </div>
+            <div class="line">--------------------------------------------------------------------</div>
             <br>
             <div class="color-grid-container">
                 <div id="color-grid"></div>
             </div>
             <br>
+            <div class="line">--------------------------------------------------------------------</div>
             <h3>Right now, the most used color by these brands is...</h3>
             <div class="color-wheel-container">
                 <div class="img_center">
@@ -314,6 +353,64 @@
                 .catch(error => {
                     console.error('Error fetching the grid HTML:', error);
                 });
+        });
+
+        window.addEventListener("load", () => {
+        clock();
+        function clock() {
+            const today = new Date();
+
+            // get time components
+            const hours = today.getHours();
+            const minutes = today.getMinutes();
+            const seconds = today.getSeconds();
+
+            //add '0' to hour, minute & second when they are less 10
+            const hour = hours < 10 ? "0" + hours : hours;
+            const minute = minutes < 10 ? "0" + minutes : minutes;
+            const second = seconds < 10 ? "0" + seconds : seconds;
+
+            //make clock a 12-hour time clock
+            const hourTime = hour > 12 ? hour - 12 : hour;
+
+            // if (hour === 0) {
+            //   hour = 12;
+            // }
+            //assigning 'am' or 'pm' to indicate time of the day
+            const ampm = hour < 12 ? "AM" : "PM";
+
+            // get date components
+            const month = today.getMonth();
+            const year = today.getFullYear();
+            const day = today.getDate();
+
+            //declaring a list of all months in  a year
+            const monthList = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+            ];
+
+            //get current date and time
+            const date = monthList[month] + " " + day + ", " + year;
+            const time = hourTime + ":" + minute + ":" + second + ampm;
+
+            //combine current date and time
+            const dateTime = date + " - " + time;
+
+            //print current date and time to the DOM
+            document.getElementById("date-time").innerHTML = dateTime;
+            setTimeout(clock, 1000);
+        }
         });
     </script>
 </body>
