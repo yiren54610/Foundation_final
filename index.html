@@ -15,7 +15,7 @@
 
         .layout {
             display: flex;
-            flex: 1;  /* Ensure the content stretches to fill available space */
+            flex: 1;
         }
 
         .left-column, .right-column {
@@ -117,7 +117,16 @@
             -ms-transform: translate(-20px, 0); 
         }
 
+        .color-wheel-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
         .img_rotate {
+            position: relative;
+            display: flex;
+            justify-content: center;
             transition: All 1s ease-in-out;
             -webkit-transition: All 0.4s ease-in-out;
             -moz-transition: All 0.4s ease-in-out;
@@ -135,7 +144,7 @@
         .text {
             color: white;
             font-size: 20px;
-            position: absolute;
+            position: relative;
             top: 50%;
             left: 50%;
             -webkit-transform: translate(-50%, -50%);
@@ -157,6 +166,41 @@
         .container .img_palette_r .overlay .text a {
             text-decoration: none;
             color: inherit; /* This will now work correctly */
+        }
+
+        #color-grid {
+            position: relative; 
+            width: 100%;  
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+
+        .color-grid-container {
+            width: 100%;
+            display: block;
+            margin-top: 20px;
+            position: relative;
+            clear: both; /* Ensure it appears after previous elements */
+            padding-top: 20px;
+        }
+
+        .grid-container {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .grid-item {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: black;
+            border: 1px solid #ccc;
+            text-shadow: 0 0 2px white; /* Text shadow for readability */
         }
 
     </style>
@@ -203,11 +247,21 @@
                 <br>
                 They are auto-updated every month.
             </p>
-            <div class="img_rotate">
-                <img src="color_wheel.png" alt="Color Usage in Fashion">
+            <div class="color-wheel-container">
+                <div class="img_rotate">
+                    <img src="color_wheel.png" alt="Color Usage in Fashion">
+                </div>
             </div>
-            <div class="img_center">
-                <img src="most_common_color_wheel.png" alt="Color Usage in Fashion">
+            <br>
+            <div class="color-grid-container">
+                <div id="color-grid"></div>
+            </div>
+            <br>
+            <h3>Right now, the most used color by these brands is...</h3>
+            <div class="color-wheel-container">
+                <div class="img_center">
+                    <img src="most_common_color_wheel.png" alt="Color Usage in Fashion">
+                </div>
             </div>
         </div>
         <div class="right-column">
@@ -221,13 +275,46 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div id="footer">
         <p>This website was made for the final project of Foundation Class. 
             <a href="https://github.com/yiren54610/Foundation_final.git">auto-updating websites</a>.
         </p>
-
     </div>
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
+            fetch('color_grids.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+
+                    const gridItems = tempDiv.querySelectorAll('.grid-container');
+
+                    console.log('Fetched grid items:', gridItems);  
+
+                    const targetDiv = document.querySelector("#color-grid");
+                    
+                    if (gridItems.length > 0 && targetDiv) {
+                        gridItems.forEach(item => {
+                            targetDiv.appendChild(item.cloneNode(true));
+                            // Create a <br> element and append it after each grid-container
+                            const br = document.createElement('br');
+                            targetDiv.appendChild(br);
+                        });
+                    } else {
+                        console.log('No grid-item found in the fetched HTML or target div missing');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the grid HTML:', error);
+                });
+        });
+    </script>
 </body>
 </html>
