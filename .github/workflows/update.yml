@@ -39,9 +39,12 @@ jobs:
           Xvfb :99 -screen 0 1920x1080x24 &
           export DISPLAY=:99
 
+      - name: Convert Notebook
+        run: |
+            jupyter nbconvert --to html --stdout Model__building > color_grids.html
+
       - name: Execute the notebook
         run: xvfb-run -a jupyter nbconvert --to notebook --execute "Model__building.ipynb" --stdout
-
       
       - name: Scraping today's data
         run: jupyter nbconvert --to notebook --execute "Model__building.ipynb" --stdout
