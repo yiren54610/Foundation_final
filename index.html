@@ -155,6 +155,7 @@
             color: white;
             font-size: 20px;
             position: relative;
+            text-align: center;
             top: 50%;
             left: 50%;
             -webkit-transform: translate(-50%, -50%);
@@ -238,6 +239,51 @@
             font-size: 2em;
             text-align: center;
         }
+
+        .wheel_align {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .grid_align {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        }
+
+
+        .tooltip {
+            position: relative;  /* Keep this */
+            display: inline-block;
+            cursor: pointer;  /* Changed from default */
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            position: absolute;  /* Change from relative to absolute */
+            z-index: 1;
+            bottom: -10%;  /* Position below the image */
+            left: 50%;  /* Center horizontally */
+            transform: translateX(-50%);  /* Adjust for perfect centering */
+            
+            padding: 2em 4.0em;
+            background-color: #A1B0A1;
+            color: #F1F1E6;
+            text-align: center;
+            border-radius: 0.25em;
+            white-space: nowrap;
+            font-size: 2em;
+
+            transition-property: visibility;
+            transition-delay: 0s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            transition-delay: 0.3s;
+        }
     </style>
 </head>
 <body>
@@ -291,17 +337,33 @@
             </div>
             <div class="line">--------------------------------------------------------------------</div>
             <br>
-            <div class="color-wheel-container">
-                <div class="img_rotate">
-                    <img src="color_wheel.png" alt="Color Usage in Fashion">
+            <div class="wheel_align">
+                <div class="color-wheel-container">
+                    <div class="img_rotate">
+                        <img src="last_updated_color_wheel.png" alt="Color Usage in Fashion">
+                    </div>
+                </div>
+                
+                <div class="color-wheel-container">
+                    <h3>Right now, the most used color by these brands is =></h3>
+                    <div class="img_center">
+                        <img src="most_common_color_wheel.png" alt="Color Usage in Fashion">
+                    </div>
                 </div>
             </div>
             <br>
             <div class="line">--------------------------------------------------------------------</div>
-            <h3>Right now, the most used color by these brands is...</h3>
-            <div class="color-wheel-container">
-                <div class="img_center">
-                    <img src="most_common_color_wheel.png" alt="Color Usage in Fashion">
+            <br>
+            <h3>Below compares the color palettes from last month to the most updated version.</h3>
+            <br>
+            <div class="grid_align">
+                <div class="tooltip">
+                    <img src="latest_color_grids.png" alt="Color Usage in Fashion">
+                    <span class="tooltiptext">This month.</span>
+                </div>
+                <div class="tooltip">
+                    <img src="last_grids.png" alt="Color Usage in Fashion">
+                    <span class="tooltiptext">Last month.</span>
                 </div>
             </div>
         </div>
