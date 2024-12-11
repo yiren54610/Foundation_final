@@ -39,15 +39,18 @@ jobs:
           Xvfb :99 -screen 0 1920x1080x24 &
           export DISPLAY=:99
 
+      - name: Convert Notebook to HTML
+        run: |
+          jupyter nbconvert --to html Model__building.ipynb --output color_grids.html
+
       - name: Execute the notebook
-        run: xvfb-run -a jupyter nbconvert --to notebook --execute "Model__building.ipynb" --stdout
+        run: |
+          xvfb-run -a jupyter nbconvert --to notebook --execute "Model__building.ipynb" --output executed_Model__building.ipynb
 
       
-      - name: Scraping today's data
-        run: jupyter nbconvert --to notebook --execute "Model__building.ipynb" --stdout
-
-      - name: Run Playwright tests (optional)
-        run: node your-playwright-script.js # Replace with your test script if needed
+      - name: Scraping this month's data
+        run: |
+          jupyter nbconvert --to notebook --execute "Model__building.ipynb" --output scraped_data_Model__building.ipynb
 
       - name: Commit and push any changes
         run: |-
