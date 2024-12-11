@@ -50,7 +50,8 @@ jobs:
       
       - name: Scraping this month's data
         run: |
-          jupyter nbconvert --to notebook --execute "Model__building.ipynb" --output scraped_data_Model__building.ipynb
+          xvfb-run -a jupyter nbconvert --to notebook --execute "Model__building.ipynb" --output scraped_data_Model__building.ipynb
+
 
       - name: Commit and push any changes
         run: |-
