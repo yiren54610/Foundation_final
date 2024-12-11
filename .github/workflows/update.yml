@@ -49,9 +49,6 @@ jobs:
       - name: Scraping today's data
         run: jupyter nbconvert --to notebook --execute "Model__building.ipynb" --stdout
 
-      - name: Run Playwright tests (optional)
-        run: node your-playwright-script.js # Replace with your test script if needed
-
       - name: Commit and push any changes
         run: |-
           git config user.name "Automated"
