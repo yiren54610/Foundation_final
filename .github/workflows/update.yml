@@ -1,41 +1,60 @@
 # You can name this whatever you want
 name: update
 
-# You will get an error on the automatic updates committing
-# if you do not have this line
-# You didn't need it before, which is why a lot of yml job files
-# you see will not have it (but you need it now!!!)
+# Permissions to allow committing changes
 permissions:
   contents: write
-  
-# The 'on' section is about when this is run
-# workflow_dispatch makes there be a button on GitHub to let you run it manually
-# schedule and cron make it run at certain frequencies
+
+# Define triggers for the workflow
 on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * 0'
+
 jobs:
   daily:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out this repo
-      uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'
-    - name: Install all necessary packages
-      run: pip install jupyter lxml pandas matplotlib requests beautifulsoup4 html5lib playwright torch torchvision torchaudio transformers numpy Pillow scikit-learn
-    - name: Install playwright
-      run: playwright install
-    - name: Scraping today's data
-      run: jupyter nbconvert --to notebook --execute "Model__building.ipynb" --stdout
-    - name: Commit and push any changes
-      run: |-
-        git config user.name "Automated"
-        git config user.email "actions@users.noreply.github.com"
-        git add -A
-        timestamp=$(date -u)
-        git commit -m "Latest data: ${timestamp}" || exit 0
-        git push origin main
+      - name: Check out this repo
+        uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      
+      - name: Install all necessary packages
+        run: pip install jupyter lxml pandas matplotlib requests beautifulsoup4 html5lib playwright torch torchvision torchaudio transformers numpy Pillow scikit-learn
+      
+      - name: Install Playwright
+        run: playwright install
+
+      - name: Install Playwright dependencies
+        run: npx playwright install-deps
+
+      - name: Set up Xvfb for non-headless Playwright
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          Xvfb :99 -screen 0 1920x1080x24 &
+          export DISPLAY=:99
+
+      - name: Execute the notebook
+        run: xvfb-run -a jupyter nbconvert --to notebook --execute "Model__building.ipynb" --stdout
+
+      
+      - name: Scraping today's data
+        run: jupyter nbconvert --to notebook --execute "Model__building.ipynb" --stdout
+
+      - name: Run Playwright tests (optional)
+        run: node your-playwright-script.js # Replace with your test script if needed
+
+      - name: Commit and push any changes
+        run: |-
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Latest data: ${timestamp}" || exit 0
+          git push origin main
+
