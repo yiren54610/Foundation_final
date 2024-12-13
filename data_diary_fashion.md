@@ -83,12 +83,24 @@ def batch_segment_clothing(img_dir, out_dir, clothes= ["Hat", "Upper-clothes", "
 
 
 ### **Data Collection**  
-
+Started from November 25,
 I was working on collecting data and gettng it to work throughout the whole project in order to get as much details as possible.
 Data was collected using the Playwright library to scrape the official websites of four fashion brands. Media links for new arrivals were extracted, and the corresponding images were downloaded and saved in brand-specific directories.  
 The output from this step consisted of images containing only the clothing sections.  
 
+On December 4th, 
+I realized that webiste like Zara required playwright to scroll down to the bottom of the page to get all the results, so I made this:
+
+```python
+async def scroll_to_bottom(page):
+    
+    await page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
+
+
+```
+
 ### **Analysis**  
+
 The segmented images underwent color extraction using the KMeans clustering algorithm. A color palette was generated for each brand using Matplotlib.  
 
 The results were compiled into a color wheel format, with the most frequently occurring color recorded using Python's `collections.Counter`.  
@@ -109,8 +121,9 @@ ax2.spines['polar'].set_visible(False)
 
 plt.savefig('most_common_color_wheel.png', transparent=True)
 
-
 ```
+
+
 
 ### **Visualization**  
 The final product was saved as a color grid, with RGB values displayed across the grid in `color_grids.html`. This section was dynamically integrated into `index.html` using JavaScript for seamless updates.
