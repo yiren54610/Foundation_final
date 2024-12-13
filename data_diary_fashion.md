@@ -9,22 +9,83 @@ This project aims to track color usage patterns in the fashion industry, focusin
 ## **Chronological Log**
 
 ### **Project Structure**  
-The project consists of three main parts:  
-1. **Data Extraction**  
-2. **Analysis**  
-3. **Visualization**  
+The project consists of three main parts: 
+1. **Model Building**
+2. **Data Extraction**  
+3. **Analysis**  
+4. **Visualization**  
 
-### **Data Collection**  
-Data was collected using the Playwright library to scrape the official websites of four fashion brands. Media links for new arrivals were extracted, and the corresponding images were downloaded and saved in brand-specific directories.  
-
+### **Model building & Testing**
+In the first week:
+I mainly leanred how to use segmentation model.
 An image segmentation model from Hugging Face, `mattmdjaga/segformer_b2_clothes`, was employed to crop out the background and body parts of model images, isolating only the clothing.  
 
 **Code Example:**  
 ```python
 from transformers import pipeline
 segmenter = pipeline("image-segmentation", model="mattmdjaga/segformer_b2_clothes")
+
+# Initialize segmentation pipeline
+def segment_clothing(img, clothes= ["Upper-clothes", "Pants", "Belt"]):
+    # Segment image
+    segments = segmenter(img)
+
+    # Create list of masks
+    mask_list = []
+    for s in segments:
+        if(s['label'] in clothes):
+            mask_list.append(s['mask'])
+
+
+    # Paste all masks on top of eachother 
+    final_mask = np.array(mask_list[0])
+    for mask in mask_list:
+        current_mask = np.array(mask)
+        final_mask = final_mask + current_mask
+            
+    # Convert final mask from np array to PIL image
+    final_mask = Image.fromarray(final_mask)
+
+    # Apply mask to original image
+    img.putalpha(final_mask)
+
+    # display the image
+    return img
+def batch_segment_clothing(img_dir, out_dir, clothes= ["Hat", "Upper-clothes", "Skirt", "Pants", "Dress", "Belt", "Left-shoe", "Right-shoe", "Scarf"]):
+    # Create output directory if it doesn't exist
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+
+    # Iterate through each file in the input directory
+    for filename in os.listdir(img_dir):
+        if filename.endswith(".jpg") or filename.endswith(".JPG") or filename.endswith(".png") or filename.endswith(".PNG"):
+            try:
+                # Load image
+                img_path = os.path.join(img_dir, filename)
+                img = Image.open(img_path).convert("RGBA")
+
+                # Segment clothing
+                segmented_img = segment_clothing(img, clothes)
+
+                # Save segmented image to output directory as PNG
+                out_path = os.path.join(out_dir, filename.split('.')[0] + ".png")
+                segmented_img.save(out_path)
+
+                print(f"Segmented {filename} successfully.")
+
+            except Exception as e:
+                print(f"Error processing {filename}: {e}")
+
+        else:
+            print(f"Skipping {filename} as it is not a supported image file.")
+
 ```
 
+
+### **Data Collection**  
+
+I was working on collecting data and gettng it to work throughout the whole project in order to get as much details as possible.
+Data was collected using the Playwright library to scrape the official websites of four fashion brands. Media links for new arrivals were extracted, and the corresponding images were downloaded and saved in brand-specific directories.  
 The output from this step consisted of images containing only the clothing sections.  
 
 ### **Analysis**  
@@ -32,8 +93,32 @@ The segmented images underwent color extraction using the KMeans clustering algo
 
 The results were compiled into a color wheel format, with the most frequently occurring color recorded using Python's `collections.Counter`.  
 
+```python
+
+from collections import Counter
+color_counts = Counter(final_colors)
+most_common_color, _ = color_counts.most_common(1)[0]
+
+fig2, ax2 = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=(4, 4))
+ax2.bar(angles, np.ones(num_colors), color=[most_common_color] * num_colors, width=2 * np.pi / num_colors)
+
+
+ax2.set_yticks([])
+ax2.set_xticks([])
+ax2.spines['polar'].set_visible(False)
+
+plt.savefig('most_common_color_wheel.png', transparent=True)
+
+
+```
+
 ### **Visualization**  
 The final product was saved as a color grid, with RGB values displayed across the grid in `color_grids.html`. This section was dynamically integrated into `index.html` using JavaScript for seamless updates.
+
+### **Autoscrapper**
+On December 9th, I got my autoscraper to work for the first time, but realized that headless mode blocked three of my webiste.
+
+On December 11th, I added Xvfb in my yaml file and finally get the workflow to run properly. 
 
 ---
 
